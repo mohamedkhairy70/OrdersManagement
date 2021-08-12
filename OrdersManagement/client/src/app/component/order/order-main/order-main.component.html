@@ -1,0 +1,129 @@
+
+<form [formGroup]="form" (ngSubmit)="showItem()">
+    <div class="form-group" >
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <i class="fas fa-calendar">
+
+                    </i>
+                </div>
+            </div>
+            <input readonly type="text" class="form-control" [disabled]="this.checkMain"
+            placeholder="DD/MM/YYYY" formControlName="orderDate">
+        </div>
+    </div>
+    <div class="form-group" >
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <i class="fas fa-user">
+                        
+                    </i>
+                </div>
+            </div>
+            <input type="text" class="form-control"  [disabled]="this.checkMain"
+            placeholder="Customer Name" formControlName="customerName">
+        </div>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-success btn-lg btn-block"
+        [disabled]="form.invalid"  type="submit">
+            <i class="fas fa-save"></i>
+            Show Item
+        </button>
+    </div>
+</form>
+
+<form [formGroup]="formItem" (ngSubmit)="addItem()" *ngIf="check()">
+
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <i class="fas fa-suitcase">
+                        
+                    </i>
+                </div>
+            </div>
+            <input type="text" class="form-control"
+            placeholder="Product Name" formControlName="productName">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="fas fa-dollar-sign">
+                                
+                            </i>
+                        </div>
+                    </div>
+                    <input type="number" class="form-control"
+                    placeholder="price" formControlName="price">
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="fas fa-compress">
+                                
+                            </i>
+                        </div>
+                    </div>
+                    <input type="number" class="form-control"
+                    placeholder="quantity" formControlName="quantity">
+                </div>
+            </div>
+        </div>
+      </div>
+    <div class="form-group">
+        <button class="btn btn-success btn-lg btn-block"
+        [disabled]="formItem.invalid" type="submit">
+            <i class="fas fa-save"></i>
+            Add to List
+        </button>
+    </div>
+</form>
+
+<table class="table" *ngIf="check()">
+    <thead>
+        <tr>
+            <td>code</td>
+            <td>product name</td>
+            <td>price</td>
+            <td>quantity</td>
+            <td>total</td>
+            <td>Option</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of newOrde.orderItems">
+            <td>{{ item.code }}</td>
+            <td>{{ item.productName }}</td>
+            <td>{{ item.price }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.getTotal() }}</td>
+            <td>
+                <i class="far fa-edit falg text-info" 
+                style="cursor: pointer;"
+                (click)="editItem(item)"></i>
+                ||
+                <i class="far fa-trash-alt falg text-danger" 
+                style="cursor: pointer;"
+                (click)="removeItem(item)"></i>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<button class="btn btn-success btn-lg btn-block"
+[disabled]="!this.checkMain" type="submit" (click)="saveOrder()">
+    <i class="fas fa-save"></i>
+Save
+</button>
